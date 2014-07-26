@@ -34,15 +34,17 @@ describe "Aquasync" do
         collection.push book2
       end
 
-      it("collection size should eq 2") {
-        expect(collection.size).to eq 2
-      }
-
       it("dirty resources size should eq 2") {
         expect(collection.dirty_resources.size).to eq 2
       }
 
-      it("should push 2 dirty records to master") {
+      it("should push 2 dirty records to master successfully") {
+        collection.push_sync
+        expect(master.collection.size).to eq 2
+      }
+
+      it("should not push records for duplicated #push_sync") {
+        collection.push_sync
         collection.push_sync
         expect(master.collection.size).to eq 2
       }

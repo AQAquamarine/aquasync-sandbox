@@ -21,6 +21,7 @@ class Aquasync::Collection
 
   def push_sync
     master_collection.receive_deltas dirty_resources
+    undirty_resources!
   end
 
   def update_records_by_deltas(deltas)
@@ -44,6 +45,12 @@ class Aquasync::Collection
 
   def dirty_resources
     @collection.select {|r| r.dirty?}
+  end
+
+  def undirty_resources!
+    dirty_resources.each do |resource|
+      resource.undirty!
+    end
   end
 
   def size

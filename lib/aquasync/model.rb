@@ -19,6 +19,10 @@ class Aquasync::Model
     end
   end
 
+  def resolve_conflict(delta)
+
+  end
+
   def destroy
     update_attribute :deleted_at, Time.now
   end
@@ -42,6 +46,10 @@ class Aquasync::Model
 
   def dirty!
     self.dirty = true
+  end
+
+  def undirty!
+    self.dirty = false
   end
 
   def new_timestamp
