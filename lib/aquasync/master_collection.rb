@@ -21,12 +21,21 @@ class Aquasync::MasterCollection
       if record
         record.resolve_conflict(delta)
       else
-        @collection.create_record_from_delta(delta)
+        create_record_from_delta(delta)
       end
     end
   end
 
+  def create_record_from_delta(delta)
+    delta.ust = new_timestamp
+    @collection.create_record_from_delta(delta)
+  end
+
   def retrieve_deltas(device_token, latest_ust)
-    @collection.select {|r| r.ust > latest_ust }.select {|r| r.device_token != device_token}
+    @collection.collection.select {|r| r.ust >= latest_ust }.select {|r| r.device_token != device_token}
+  end
+
+  def new_timestamp
+    Time.now.to_i
   end
 end

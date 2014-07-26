@@ -1,5 +1,5 @@
 class Aquasync::LocalStore
-  attr_accessor :latest_ust, :deviceToken
+  attr_accessor :latest_ust, :device_token
 
   class << self
     def instance
