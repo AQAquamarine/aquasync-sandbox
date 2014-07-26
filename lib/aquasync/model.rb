@@ -19,6 +19,10 @@ class Aquasync::Model
     end
   end
 
+  def destroy
+    update_attribute :deleted_at, Time.now
+  end
+
   def after_create_or_update
     dirty!
     set_timestamp
