@@ -3,7 +3,8 @@ class Aquasync::Collection
     @collection = []
   end
 
-  def push(resource)
-    @collection.push resource
+
+  def method_missing(method, *args, &block)
+    @collection.send(method, *args, &block)
   end
 end

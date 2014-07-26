@@ -8,3 +8,6 @@ book = Book.new
 puts book.gid
 puts book.local_timestamp
 puts book.dirty?
+
+local_collection.push book
+puts local_collection.size
