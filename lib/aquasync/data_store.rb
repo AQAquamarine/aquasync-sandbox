@@ -1,3 +1,0 @@
-class Aquasync::DataStore
-
-end
