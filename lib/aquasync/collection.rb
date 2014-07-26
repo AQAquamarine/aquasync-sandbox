@@ -1,4 +1,6 @@
 class Aquasync::Collection
+  attr_reader :collection
+
   def initialize
     @collection = []
   end
@@ -13,27 +15,12 @@ class Aquasync::Collection
     latest_ust = local_store.latest_ust
     device_token = local_store.device_token
 
-    deltas = Aquasync::MasterCollection.instance.retrieve_deltas(device_token, latest_ust)
+    deltas = master_collection.retrieve_deltas(device_token, latest_ust)
     update_records_by_deltas(deltas)
   end
 
   def push_sync
-    Aquasync::MasterCollection.push_deltas dirty_resources
-  end
-
-  def push_deltas(deltas)
-    deltas.each do |delta|
-      record = find(delta.gid)
-      if record
-        record.resolve_conflict(delta)
-      else
-        create_record_from_delta(delta)
-      end
-    end
-  end
-
-  def retrieve_deltas(device_token, latest_ust)
-    @collection.select {|r| r.ust > latest_ust }.select {|r| r.device_token != device_token}
+    master_collection.receive_deltas dirty_resources
   end
 
   def update_records_by_deltas(deltas)
@@ -56,7 +43,7 @@ class Aquasync::Collection
   end
 
   def dirty_resources
-    @collection.select {|r| r.ditry?}
+    @collection.select {|r| r.dirty?}
   end
 
   def size
@@ -67,5 +54,9 @@ class Aquasync::Collection
 
   def method_missing(method, *args, &block)
     @collection.send(method, *args, &block)
+  end
+
+  def master_collection
+    Aquasync::MasterCollection.instance
   end
 end
