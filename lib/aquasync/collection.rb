@@ -18,7 +18,18 @@ class Aquasync::Collection
   end
 
   def push_sync
+    Aquasync::MasterCollection.push_deltas dirty_resources
+  end
 
+  def push_deltas(deltas)
+    deltas.each do |delta|
+      record = find(delta.gid)
+      if record
+        record.resolve_conflict(delta)
+      else
+        create_record_from_delta(delta)
+      end
+    end
   end
 
   def retrieve_deltas(device_token, latest_ust)
