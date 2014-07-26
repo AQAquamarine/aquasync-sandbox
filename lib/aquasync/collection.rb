@@ -3,6 +3,23 @@ class Aquasync::Collection
     @collection = []
   end
 
+  def sync
+    pull_sync
+    push_sync
+  end
+
+  def pull_sync
+
+  end
+
+  def push_sync
+
+  end
+
+  def dirty_resources
+    @collection.select {|r| r.ditry?}
+  end
+
   def size
     @collection.select {|r| not r.deleted?}.size
   end
