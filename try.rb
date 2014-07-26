@@ -7,3 +7,4 @@ local_collection = Aquasync::Collection.new
 book = Book.new
 puts book.gid
 puts book.local_timestamp
+puts book.dirty?

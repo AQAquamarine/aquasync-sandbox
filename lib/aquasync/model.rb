@@ -13,6 +13,12 @@ class Aquasync::Model
     after_create_or_update
   end
 
+  def update_attributes(attributes)
+    attributes.each do |key, value|
+      update_attribute key, value
+    end
+  end
+
   def after_create_or_update
     dirty!
     set_timestamp
@@ -23,11 +29,11 @@ class Aquasync::Model
   end
 
   def dirty?
-    dirty
+    self.dirty
   end
 
   def dirty!
-    dirty = true
+    self.dirty = true
   end
 
   def new_timestamp
