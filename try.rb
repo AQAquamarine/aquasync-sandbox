@@ -1,5 +1,5 @@
 require_relative 'lib/aquasync'
-require_relative 'models/book'
+require_relative 'models/models'
 
 # Scenario 1: Local <=> Remote synchronization
 
