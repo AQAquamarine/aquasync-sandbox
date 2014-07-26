@@ -23,6 +23,10 @@ class Aquasync::Model
     update_attribute :deleted_at, Time.now
   end
 
+  def deleted?
+    !!self.deleted_at
+  end
+
   def after_create_or_update
     dirty!
     set_timestamp

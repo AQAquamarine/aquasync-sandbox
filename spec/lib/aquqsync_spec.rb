@@ -15,5 +15,13 @@ describe "Aquasync" do
       collection.push book
       expect(collection.size).to eq 1
     }
+
+    it {
+      dbook = Book.new
+      dbook.destroy
+
+      collection.push dbook
+      expect(collection.size).to eq 0
+    }
   end
 end
