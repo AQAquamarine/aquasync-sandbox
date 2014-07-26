@@ -20,7 +20,7 @@ class Aquasync::Collection
   end
 
   def push_sync
-    master_collection.receive_deltas dirty_resources
+    master_collection.receive_deltas dirty_resources if dirty_resources.size > 0
     undirty_resources!
   end
 
@@ -48,7 +48,7 @@ class Aquasync::Collection
   end
 
   def undirty_resources!
-    dirty_resources.each do |resource|
+    @collection.each do |resource|
       resource.undirty!
     end
   end

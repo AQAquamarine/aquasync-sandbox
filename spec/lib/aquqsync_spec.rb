@@ -28,6 +28,7 @@ describe "Aquasync" do
 
     context '#push_sync' do
       before(:each) do
+        master.drop_all
         book1 = Book.new
         book2 = Book.new
         collection.push book1
@@ -43,7 +44,12 @@ describe "Aquasync" do
         expect(master.collection.size).to eq 2
       }
 
-      it("should not push records for duplicated #push_sync") {
+      it("should undirty resources after #push_sync") {
+        collection.push_sync
+        expect(collection.dirty_resources.size).to eq 0
+      }
+
+      it("should not send duplicated deltas for duplicated #push_sync") {
         collection.push_sync
         collection.push_sync
         expect(master.collection.size).to eq 2

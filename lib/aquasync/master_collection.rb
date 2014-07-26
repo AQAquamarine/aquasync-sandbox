@@ -7,6 +7,10 @@ class Aquasync::MasterCollection
     end
   end
 
+  def drop_all
+    @collection = Aquasync::Collection.new
+  end
+
   def initialize
     @collection = Aquasync::Collection.new
   end
